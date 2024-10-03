@@ -1,18 +1,14 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react"; // useCallback 추가
 import { useParams } from "react-router-dom";
 import "./User.css";
 
-const UserDetail = () => { // 이름 변경
+const User = () => {
   const [user, setUser] = useState({});
   const { id } = useParams();
   const getUserApi = "http://localhost:3000/user";
 
-  useEffect(() => {
-    getUser();
-  }, [id]); // id가 변경될 때마다 호출
-
-  const getUser = () => {
+  const getUser = useCallback(() => { // useCallback 사용
     axios
       .get(`${getUserApi}/${id}`) // 템플릿 리터럴 사용
       .then((item) => {
@@ -21,7 +17,11 @@ const UserDetail = () => { // 이름 변경
       .catch((err) => {
         console.log(err);
       });
-  };
+  }, [id]); // id를 의존성 배열에 추가
+
+  useEffect(() => {
+    getUser(); // getUser 호출
+  }, [getUser]); // getUser를 의존성 배열에 추가
 
   return (
     <div className="user mt-5">
@@ -51,4 +51,4 @@ const UserDetail = () => { // 이름 변경
   );
 };
 
-export default UserDetail; // 변경된 이름으로 export
+export default User; // 변경된 이름으로 export

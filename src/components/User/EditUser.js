@@ -1,32 +1,32 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react"; // useCallback 추가
 import { useParams, useNavigate } from "react-router-dom";
 import Loader from "../Common/Loader";
 import "./User.css";
 
 const EditUser = () => {
-  const [user, setUser] = useState({}); // 초기값을 객체로 수정
+  const [user, setUser] = useState({}); 
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
   const getUserApi = "http://localhost:3000/user";
 
-  const getUser = () => {
+  const getUser = useCallback(() => { // useCallback 사용
     axios
-      .get(`${getUserApi}/${id}`) // 템플릿 리터럴 사용
+      .get(`${getUserApi}/${id}`)
       .then((item) => {
         setUser(item.data);
       })
       .catch((err) => {
         console.log(err);
-        setError(err.message); // 에러 메시지 저장
+        setError(err.message);
       });
-  };
+  }, [id]); // id를 의존성 배열에 추가
 
   useEffect(() => {
-    getUser(); // 여기서 getUser를 호출
-  }, [id]); // id가 변경될 때마다 호출
+    getUser(); 
+  }, [getUser]); // getUser를 의존성 배열에 추가
 
   const handelInput = (e) => {
     const { name, value } = e.target;
@@ -35,7 +35,7 @@ const EditUser = () => {
 
   const handelSubmit = (e) => {
     e.preventDefault();
-    setIsLoading(true); // 요청 시작 전에 로딩 상태 설정
+    setIsLoading(true);
 
     fetch(`${getUserApi}/${id}`, {
       method: "PUT",
@@ -57,7 +57,7 @@ const EditUser = () => {
         setError(error.message);
       })
       .finally(() => {
-        setIsLoading(false); // 요청 종료 후 로딩 상태 해제
+        setIsLoading(false);
       });
   };
 
@@ -78,7 +78,7 @@ const EditUser = () => {
             className="form-control"
             id="name"
             name="name"
-            value={user.name || ''} // 초기값 처리
+            value={user.name || ''} 
             onChange={handelInput}
           />
         </div>
@@ -91,7 +91,7 @@ const EditUser = () => {
             className="form-control"
             id="email"
             name="email"
-            value={user.email || ''} // 초기값 처리
+            value={user.email || ''}
             onChange={handelInput}
           />
         </div>
@@ -104,7 +104,7 @@ const EditUser = () => {
             className="form-control"
             id="phone"
             name="phone"
-            value={user.phone || ''} // 초기값 처리
+            value={user.phone || ''}
             onChange={handelInput}
           />
         </div>
