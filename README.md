@@ -1,4 +1,4 @@
-오픈소스 스튜디오
+오픈소스 스튜디오 과제
 # Getting Started with Create React App
 
 This project realate to react CRUD
