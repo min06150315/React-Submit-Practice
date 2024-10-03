@@ -1,5 +1,5 @@
 <h1>22300265 민경빈</h1>
-<h3>Link -> https://min06150315-oss-assignment4-2.netlify.app/</h3>
+<h3>Link -> https://min06150315-oss-react-submit-practice.netlify.app</h3>
 <hr>
 <h3>
     React 과제 제출 연습<br>
